@@ -6,28 +6,28 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.SpringBoot.RestCrudApp.DAO.EmployeeDAO;
 import com.SpringBoot.RestCrudApp.Entity.Employee;
+import com.SpringBoot.RestCrudApp.Service.EmployeeService;
 
 @RestController
 @RequestMapping("/api")
 public class EmployeeRestController {
 	
-	// define field for EmployeeDAO
+	// define field for EmployeeService
 	
-	private EmployeeDAO employeeDao;
+	private EmployeeService employeeService;
 	
-	// create constructor for dependency injection
+	// create constructor for dependency injection. 
 	
-	public EmployeeRestController(EmployeeDAO theEmployeeDao) {
-		employeeDao = theEmployeeDao;
+	public EmployeeRestController(EmployeeService theEmployeeService) {
+		employeeService = theEmployeeService;
 	}
 	
 	// create an endpoint for "/api/employees"
 	
 	@GetMapping("/employees")
 	public List<Employee> findAll() {		
-		return employeeDao.findAll();		
+		return employeeService.findAll();		
 	}
 
 }
