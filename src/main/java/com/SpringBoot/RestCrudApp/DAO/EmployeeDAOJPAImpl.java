@@ -1,6 +1,5 @@
 package com.SpringBoot.RestCrudApp.DAO;
 
-import java.lang.invoke.TypeDescriptor;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
