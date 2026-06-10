@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -61,6 +62,17 @@ public class EmployeeRestController {
 		Employee dbEmployee = employeeService.save(theEmployee);
 		
 		// return the saved employee
+		return dbEmployee;
+	}
+	
+	// expose an endpoint for PUT "/employees" to update the existing employee data
+	
+	@PutMapping("/employees")
+	public Employee updateEmployee(@RequestBody Employee theEmployee) {
+		
+		// update the employee and return the updated employee obj
+		Employee dbEmployee = employeeService.save(theEmployee);
+		
 		return dbEmployee;
 	}
 	
