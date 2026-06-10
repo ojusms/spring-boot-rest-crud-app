@@ -1,8 +1,10 @@
 package com.SpringBoot.RestCrudApp.REST;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -13,18 +15,25 @@ import org.springframework.web.bind.annotation.RestController;
 import com.SpringBoot.RestCrudApp.Entity.Employee;
 import com.SpringBoot.RestCrudApp.Service.EmployeeService;
 
+import tools.jackson.databind.json.JsonMapper;
+
 @RestController
 @RequestMapping("/api")
 public class EmployeeRestController {
 	
 	// define field for EmployeeService
+	// adding a field for JsonMapper for PATCH endpoint for partial update of employee record
 	
 	private EmployeeService employeeService;
 	
-	// create constructor for dependency injection. 
+	private JsonMapper jsonMapper;
 	
-	public EmployeeRestController(EmployeeService theEmployeeService) {
+	// create constructor for dependency injection. 
+	// update constructor to include JsonMapper for Dependency Injection
+	
+	public EmployeeRestController(EmployeeService theEmployeeService, JsonMapper theJsonMapper) {
 		employeeService = theEmployeeService;
+		jsonMapper = theJsonMapper;
 	}
 	
 	// create an endpoint for "/api/employees"
@@ -72,6 +81,34 @@ public class EmployeeRestController {
 		
 		// update the employee and return the updated employee obj
 		Employee dbEmployee = employeeService.save(theEmployee);
+		
+		return dbEmployee;
+	}
+	
+	// expose an endpoint for PATCH "employees/{employeeId}" to do a partial update on employee record
+	
+	@PatchMapping("/employees/{employeeId}")
+	public Employee partialUpdate(@PathVariable int employeeId, @RequestBody Map<String, Object> patchPayload) {
+		
+		// retrieve employee to be patched
+		
+		Employee tempEmployee = employeeService.findById(employeeId);
+		
+		// throw exception if no such employee
+		
+		if (tempEmployee == null) {
+			throw new RuntimeException("Employee not found - " + employeeId);
+		}
+		
+		// throw an exception if employeeId is part of request body, we do not allow primary key to be updated
+		
+		if (patchPayload.containsKey("id")) {
+			throw new RuntimeException("Request body cannot contain ID");
+		}
+		
+		Employee patchedEmployee = jsonMapper.updateValue(tempEmployee, patchPayload);
+		
+		Employee dbEmployee = employeeService.save(patchedEmployee);
 		
 		return dbEmployee;
 	}
