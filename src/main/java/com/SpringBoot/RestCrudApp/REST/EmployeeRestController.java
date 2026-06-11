@@ -3,6 +3,7 @@ package com.SpringBoot.RestCrudApp.REST;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -113,4 +114,22 @@ public class EmployeeRestController {
 		return dbEmployee;
 	}
 	
+	// expose an endpoint for DELETE "employees/{employeeId}" to delete an employee
+	
+	@DeleteMapping("/employees/{employeeId}")
+	public String deleteEmployee(@PathVariable int employeeId) {
+		
+		// retrieve employee by ID
+		Employee tempEmployee = employeeService.findById(employeeId);
+		
+		// throw exception if not found
+		if (tempEmployee == null) {
+			throw new RuntimeException("Employee not found with ID " + employeeId);
+		}
+		
+		//delete employee
+		employeeService.deleteById(employeeId);
+		
+		return "Deleted employee with ID " + employeeId;
+	}
 }
