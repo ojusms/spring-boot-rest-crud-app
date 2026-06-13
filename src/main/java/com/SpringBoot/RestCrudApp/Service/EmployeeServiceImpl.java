@@ -71,6 +71,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		
 	}
 
+<<<<<<< HEAD
 /*	Showing EmployeeDAO implementation with Entity Manager for show casing purposes 
 	
 	private EmployeeDAO employeeDAO;
@@ -104,4 +105,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 		
 	}
 */
+=======
+
+
+>>>>>>> 3aa34ded1567fca205809152f0cd9638976d5096
 }
