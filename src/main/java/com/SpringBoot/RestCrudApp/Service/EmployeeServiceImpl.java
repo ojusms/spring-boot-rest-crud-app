@@ -71,4 +71,37 @@ public class EmployeeServiceImpl implements EmployeeService {
 		
 	}
 
+/*	Showing EmployeeDAO implementation with Entity Manager for show casing purposes 
+	
+	private EmployeeDAO employeeDAO;
+
+	public EmployeeServiceImpl(EmployeeDAO theEmployeeDAO) {
+		employeeDAO = theEmployeeDAO; 
+	}
+
+	@Override
+	public List<Employee> findAll() {		
+		return employeeDAO.findAll();
+	}
+
+	@Override
+	public Employee findById(int theId) {
+		return employeeDAO.findById(theId);
+	}
+
+	// adding @Transactional annotation here since the Service layer manages transaction boundaries
+	
+	@Override
+	@Transactional
+	public Employee save(Employee theEmployee) {
+		return employeeDAO.save(theEmployee);
+	}
+
+	@Override
+	@Transactional
+	public void deleteById(int theId) {
+		employeeDAO.deleteById(theId);
+		
+	}
+*/
 }
