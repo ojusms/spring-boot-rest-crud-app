@@ -24,7 +24,25 @@ public class SecurityConfig {
 	
 	@Bean
 	public UserDetailsManager userDetailsManager(DataSource datasource) {
-		return new JdbcUserDetailsManager(datasource);
+		
+		// below code for when using custom tables/schema for users and authorities  in the database	
+		
+		JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(datasource);
+		
+		// define query to retrieve user details. Here ? is the value provided in the username filed by REST client
+		jdbcUserDetailsManager.setUsersByUsernameQuery("select user_id, pw, active from members where user_id=?");;
+		
+		// define query to retrieve role details
+		jdbcUserDetailsManager.setAuthoritiesByUsernameQuery("select user_id, role from roles where user_id=?");
+		
+		return jdbcUserDetailsManager;
+		
+		/*
+		 *  this line is enough in this method if using the Spring Security default table schema of 'users' 
+		 *  and 'authorities' tables in the databsae
+		 *  
+		 *  return new JdbcUserDetailsManager(datasource);
+		 */
 	}
 	
 	// add security filter to implement Role Based Access Control for API end points
